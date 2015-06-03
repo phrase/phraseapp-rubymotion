@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'motion-phrase/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "motion-phrase"
+  gem.name          = "phraseapp-rubymotion"
   gem.version       = MotionPhrase::VERSION
   gem.authors       = ["PhraseApp"]
   gem.email         = ["info@phraseapp.com"]
   gem.description   = "RubyMotion library for PhraseApp"
   gem.summary       = "Connect your RubyMotion application to PhraseApp for the best i18n experience"
-  gem.homepage      = "https://github.com/phrase/motion-phrase"
+  gem.homepage      = "https://github.com/phrase/phraseapp-rubymotion"
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
