@@ -6,7 +6,7 @@ require "motion/project/phrase"
 require "motion-cocoapods"
 
 Motion::Project::App.setup do |app|
-  Dir.glob(File.join(File.dirname(__FILE__), 'motion-phrase/**/*.rb')).each do |file|
+  Dir.glob(File.join(File.dirname(__FILE__), 'phraseapp-rubymotion/**/*.rb')).each do |file|
     app.files.unshift(file)
   end
 
