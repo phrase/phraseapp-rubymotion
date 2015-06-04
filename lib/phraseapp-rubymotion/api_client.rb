@@ -58,5 +58,18 @@ module MotionPhrase
     def auth_token_present?
       !auth_token.nil? && auth_token != ""
     end
+
+    def project_id
+      if defined?(PHRASE_PROJECT_ID)
+        PHRASE_PROJECT_ID
+      else
+        nil
+      end
+    end    
+
+    def project_id_present?
+      !project_id.nil? && project_id != ""
+    end
+
   end
 end
