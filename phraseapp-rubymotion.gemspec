@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
   gem.add_dependency 'phrase'
+  gem.add_dependency 'phraseapp-ruby'
   gem.add_dependency 'motion-cocoapods'
   gem.add_development_dependency 'rake'
 end
