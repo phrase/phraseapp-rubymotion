@@ -1,7 +1,7 @@
 module MotionPhrase
   class ApiClient
-    API_CLIENT_IDENTIFIER = "motion_phrase"
-    API_BASE_URI = "https://phraseapp.com/api/v1/"
+    API_CLIENT_IDENTIFIER = "PhraseApp RubyMotion " + MotionPhrase::VERSION
+    API_BASE_URI = "https://api.phraseapp.com/v2/"
 
     def self.sharedClient
       Dispatch.once { @instance ||= new }
@@ -13,18 +13,14 @@ module MotionPhrase
 
       content ||= fallbackContent
       data = {
-        locale: currentLocale,
         key: keyName,
-        content: content,
-        allow_update: false,
-        skip_verification: true,
-        api_client: API_CLIENT_IDENTIFIER,
       }
 
-      client.POST("translations/store", parameters:authenticated(data), success:lambda {|task, responseObject|
+      client.POST("projects/" + project_id + "/keys", parameters:data, success:lambda {|task, responseObject|
         log "Translation stored [#{data.inspect}]"
       }, failure:lambda {|task, error|
         log "Error while storing translation [#{data.inspect}]"
+        log error.localizedDescription
       })
     end
 
@@ -32,7 +28,10 @@ module MotionPhrase
     def client
       Dispatch.once do
         @client = begin
-          _client = AFHTTPSessionManager.alloc.initWithBaseURL(NSURL.URLWithString(API_BASE_URI))
+          _client = AFHTTPSessionManager.alloc.initWithBaseURL(NSURL.URLWithString(API_BASE_URI)) do
+            header "Authorized", "token " + auth_token
+            header "User-Agent", API_CLIENT_IDENTIFIER
+          end
           _client
         end
       end
@@ -41,10 +40,6 @@ module MotionPhrase
 
     def log(msg="")
       $stdout.puts "PHRASEAPP #{msg}"
-    end
-
-    def authenticated(params={})
-      params.merge(auth_token: auth_token)
     end
 
     def auth_token
