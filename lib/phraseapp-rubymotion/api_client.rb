@@ -17,11 +17,14 @@ module MotionPhrase
       }
 
       client.POST("projects/#{project_id}/keys", parameters:data, success:lambda {|task, responseObject|
-        log "Translation stored [#{data.inspect}]"
+        log "TranslationKey stored [#{data.inspect}]"
       }, failure:lambda {|task, error|
-        log "Error while storing translation [#{data.inspect}]"
-        log error.localizedDescription
-        log error.userInfo
+        if error.userInfo['com.alamofire.serialization.response.error.data'].to_s.include?('has already been taken')
+          log "TranslationKey '#{keyName}'' is already stored"
+        else
+          log "Error while storing TranslationKey [#{data.inspect}]"
+          log error.localizedDescription
+        end
       })
     end
 
