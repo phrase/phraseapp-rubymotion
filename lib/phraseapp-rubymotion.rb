@@ -21,9 +21,9 @@ end
 namespace :phrase do
   desc "Initialize PhraseApp for your RubyMotion project"
   task :init do
-    auth_token = ENV['AUTH_TOKEN']
-    App.fail "Please specify your auth token, e.g. rake phrase:init AUTH_TOKEN=secret" unless auth_token
-    result = `phrase init --secret=#{auth_token}`
+    access_token = ENV['AUTH_TOKEN']
+    App.fail "Please specify your auth token, e.g. rake phrase:init AUTH_TOKEN=secret" unless access_token
+    result = `phrase init --secret=#{access_token}`
     App.info "PHRASE", result
   end
 

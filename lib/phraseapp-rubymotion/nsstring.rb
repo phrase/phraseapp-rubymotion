@@ -13,7 +13,7 @@ private
   end
 
   def phraseEnabled?
-    PHRASE_ENABLED == true && development?
+    PHRASEAPP_ENABLED == true && development?
   end
 
   def currentLocaleName

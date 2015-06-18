@@ -9,18 +9,19 @@ module MotionPhrase
     end
 
     def storeTranslation(keyName, content, fallbackContent, currentLocale)
-      return unless auth_token_present?
+      return unless access_token_present?
 
       content ||= fallbackContent
       data = {
-        key: keyName,
+        name: keyName
       }
 
-      client.POST("projects/" + project_id + "/keys", parameters:data, success:lambda {|task, responseObject|
+      client.POST("projects/#{project_id}/keys", parameters:data, success:lambda {|task, responseObject|
         log "Translation stored [#{data.inspect}]"
       }, failure:lambda {|task, error|
         log "Error while storing translation [#{data.inspect}]"
         log error.localizedDescription
+        log error.userInfo
       })
     end
 
@@ -28,10 +29,8 @@ module MotionPhrase
     def client
       Dispatch.once do
         @client = begin
-          _client = AFHTTPSessionManager.alloc.initWithBaseURL(NSURL.URLWithString(API_BASE_URI)) do
-            header "Authorized", "token " + auth_token
-            header "User-Agent", API_CLIENT_IDENTIFIER
-          end
+          _client = AFHTTPSessionManager.alloc.initWithBaseURL(NSURL.URLWithString(API_BASE_URI))
+          _client.requestSerializer.setValue("token #{access_token}", forHTTPHeaderField: "Authorization")
           _client
         end
       end
@@ -42,21 +41,21 @@ module MotionPhrase
       $stdout.puts "PHRASEAPP #{msg}"
     end
 
-    def auth_token
-      if defined?(PHRASE_AUTH_TOKEN)
-        PHRASE_AUTH_TOKEN
+    def access_token
+      if defined?(PHRASEAPP_ACCESS_TOKEN)
+        PHRASEAPP_ACCESS_TOKEN
       else
         nil
       end
     end
 
-    def auth_token_present?
-      !auth_token.nil? && auth_token != ""
+    def access_token_present?
+      !access_token.nil? && access_token != ""
     end
 
     def project_id
-      if defined?(PHRASE_PROJECT_ID)
-        PHRASE_PROJECT_ID
+      if defined?(PHRASEAPP_PROJECT_ID)
+        PHRASEAPP_PROJECT_ID
       else
         nil
       end
