@@ -9,7 +9,7 @@ module MotionPhrase
     end
 
     def storeTranslation(keyName, content, fallbackContent, currentLocale)
-      return unless access_token_present?
+      return unless access_token_present? && project_id_present?
 
       content ||= fallbackContent
       data = {
