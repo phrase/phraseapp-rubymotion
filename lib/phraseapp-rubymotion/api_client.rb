@@ -26,6 +26,8 @@ module MotionPhrase
           log error.localizedDescription
         end
       })
+
+      default_locale
     end
 
   private
@@ -66,6 +68,27 @@ module MotionPhrase
 
     def project_id_present?
       !project_id.nil? && project_id != ""
+    end
+
+    def default_locale
+      resp = client.GET(
+        "projects/#{project_id}/locales",
+        parameters:nil, 
+        success: lambda {|task, responseObject|
+          responseObject.each do |locale|
+            if locale['default']
+              return locale['id'].to_s
+            end
+          end
+        },
+        failure:lambda {|task, error|
+          return "failuire"
+      })
+      
+    end
+
+    def default_locale_present?
+      default_locale != ""
     end
 
   end

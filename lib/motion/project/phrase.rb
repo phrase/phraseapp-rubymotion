@@ -2,10 +2,10 @@ unless defined?(Motion::Project::Config)
   raise "This file must be required within a RubyMotion project Rakefile."
 end
 
-class PhraseConfig
+class PhraseAppConfig
   attr_accessor :access_token, :enabled, :project_id
 
-  CONFIG_FILE = './app/phrase_config.rb'
+  CONFIG_FILE = './app/phraseapp_config.rb'
 
   def initialize(config)
     @config = config
@@ -14,23 +14,23 @@ class PhraseConfig
 
   def access_token=(access_token)
     @access_token = access_token
-    create_phrase_config_file
+    create_phraseapp_config_file
   end
 
   def project_id=(project_id)
     @project_id = project_id
-    create_phrase_config_file
+    create_phraseapp_config_file
   end
 
   def enabled=(enabled)
     @enabled = enabled
-    create_phrase_config_file
+    create_phraseapp_config_file
   end
 
 
 
 private
-  def create_phrase_config_file
+  def create_phraseapp_config_file
     return unless @access_token
 
     if !config_file_exists? or config_file_content_outdated?
@@ -62,12 +62,12 @@ end
 module Motion
   module Project
     class Config
-      variable :phrase
+      variable :phraseapp
 
-      def phrase
-        @phrase ||= PhraseConfig.new(self)
-        yield @phrase if block_given?
-        @phrase
+      def phraseapp
+        @phraseapp ||= PhraseAppConfig.new(self)
+        yield @phraseapp if block_given?
+        @phraseapp
       end
     end
   end

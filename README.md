@@ -40,16 +40,16 @@ Add the Auth Token to your application's Rakefile:
 Motion::Project::App.setup do |app|
   app.name = "Test Application"
   app.development do
-    app.phrase do
-      app.phrase.enabled = true
-      app.phrase.access_token = "YOUR_AUTH_TOKEN"
-      app.phrase.project_id = "YOUR_PROJECT_ID"
+    app.phraseapp do
+      app.phraseapp.enabled = true
+      app.phraseapp.access_token = "YOUR_AUTH_TOKEN"
+      app.phraseapp.project_id = "YOUR_PROJECT_ID"
     end
   end
 end
 ```
 
-This will automatically create the `phrase_config.rb` configuration file in your app folder during every build process. 
+This will automatically create the `phraseapp_config.rb` configuration file in your app folder during every build process. 
 
 **Please make sure that you only enable PhraseApp in development mode and never in release mode!**
 

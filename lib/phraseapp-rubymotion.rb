@@ -11,7 +11,7 @@ Motion::Project::App.setup do |app|
     app.files.unshift(file)
   end
 
-  app.files.unshift("./app/phrase_config.rb")
+  app.files.unshift("./app/phraseapp_config.rb")
   
   app.pods do
     pod 'AFNetworking', '>= 2.5.0'
