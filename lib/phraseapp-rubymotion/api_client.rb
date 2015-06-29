@@ -8,26 +8,62 @@ module MotionPhrase
       @instance
     end
 
-    def storeTranslation(keyName, content, fallbackContent, currentLocale)
+    def store(keyName, content, fallbackContent, currentLocale)
       return unless access_token_present? && project_id_present?
-
       content ||= fallbackContent
-      data = {
-        name: keyName
-      }
+      client.GET("projects/#{project_id}/locales", parameters:{}, success:lambda {|task, responseObject|
+        responseObject.each do |x|
+          if x["default"]
+            locale_id = x["id"]
+            storeKey({name: keyName}, locale_id, content, keyName)
+          end
+        end
+      }, failure:lambda {|task, error|
+        log "Failed to get locales"
+      })
+    end
 
+    def storeKey(data, locale_id, content, keyName)
       client.POST("projects/#{project_id}/keys", parameters:data, success:lambda {|task, responseObject|
-        log "TranslationKey stored [#{data.inspect}]"
+        log "Key stored [#{data.inspect}]"
+        
+        client.POST("projects/#{project_id}/keys/search", parameters:{q: "name:#{keyName}"}, success:lambda {|task, responseObject|
+          storeTranslation(content, locale_id, responseObject[0]["id"])
+        }, failure:lambda {|task, error|
+          log "Failed to get KeyID [#{data.inspect}]"
+        })
       }, failure:lambda {|task, error|
         if error.userInfo['com.alamofire.serialization.response.error.data'].to_s.include?('has already been taken')
-          log "TranslationKey '#{keyName}'' is already stored"
+          log "Key [#{data.inspect}] is already stored"
+          
+          client.POST("projects/#{project_id}/keys/search", parameters:{q: "name:#{keyName}"}, success:lambda {|task, responseObject|
+            storeTranslation(content, locale_id, responseObject[0]["id"])
+          }, failure:lambda {|task, error|
+            log "Failed to get KeyID [#{data.inspect}]"
+          })
         else
-          log "Error while storing TranslationKey [#{data.inspect}]"
+          log "Error while storing Key [#{data.inspect}]"
           log error.localizedDescription
         end
       })
+    end
 
-      default_locale
+    def storeTranslation(content, locale_id, key_id)
+      data = {
+        content: content,
+        locale_id: locale_id,
+        key_id: key_id
+      }
+      client.POST("projects/#{project_id}/translations", parameters:data, success:lambda {|task, responseObject|
+        log "Translation stored [#{data.inspect}]"
+      }, failure:lambda {|task, error|
+        if error.userInfo['com.alamofire.serialization.response.error.data'].to_s.include?('has already been taken')
+          log "Translation is already stored [#{data.inspect}] "
+        else
+          log "Error while storing Translation [#{data.inspect}]"
+          log error.localizedDescription
+        end
+      })
     end
 
   private
@@ -43,7 +79,7 @@ module MotionPhrase
     end
 
     def log(msg="")
-      $stdout.puts "PHRASEAPP #{msg}"
+      $stdout.puts "PHRASEAPP: #{msg}"
     end
 
     def access_token
@@ -68,27 +104,6 @@ module MotionPhrase
 
     def project_id_present?
       !project_id.nil? && project_id != ""
-    end
-
-    def default_locale
-      resp = client.GET(
-        "projects/#{project_id}/locales",
-        parameters:nil, 
-        success: lambda {|task, responseObject|
-          responseObject.each do |locale|
-            if locale['default']
-              return locale['id'].to_s
-            end
-          end
-        },
-        failure:lambda {|task, error|
-          return "failuire"
-      })
-      
-    end
-
-    def default_locale_present?
-      default_locale != ""
     end
 
   end
