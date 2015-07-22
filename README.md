@@ -42,7 +42,7 @@ Motion::Project::App.setup do |app|
   app.development do
     app.phraseapp do
       app.phraseapp.enabled = true
-      app.phraseapp.access_token = "YOUR_ACCES_TOKEN"
+      app.phraseapp.access_token = "YOUR_ACCESS_TOKEN"
       app.phraseapp.project_id = "YOUR_PROJECT_ID"
     end
   end
