@@ -91,5 +91,5 @@ Simply build and run your app (in the simulator). When in development mode, phra
 
 ## Support
 
-* [PhraseApp Documentation](https://phraseapp.com/docs)
+* [PhraseApp Documentation](https://help.phraseapp.com/)
 * [PhraseApp Support](https://phraseapp.com/contact)
