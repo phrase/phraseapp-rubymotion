@@ -1,7 +1,7 @@
 module MotionPhrase
   class ApiClient
-    API_CLIENT_IDENTIFIER = "PhraseApp RubyMotion " + MotionPhrase::VERSION
-    API_BASE_URI = "https://api.phraseapp.com/v2/"
+    API_CLIENT_IDENTIFIER = "Phrase RubyMotion " + MotionPhrase::VERSION
+    API_BASE_URI = "https://api.phrase.com/v2/"
 
     def self.sharedClient
       Dispatch.once { @instance ||= new }
