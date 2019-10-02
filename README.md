@@ -1,14 +1,14 @@
 # phraseapp-rubymotion
 
-phraseapp-rubymotion lets you connect your RubyMotion application to PhraseApp and benefit from the best internationalization workflow for your (iOS) projects.
+phraseapp-rubymotion lets you connect your RubyMotion application to Phrase and benefit from the best internationalization workflow for your (iOS) projects.
 
 You can use iOS Localizable.strings files to store and read translations but at the same time work on your translation files collaboratively with translators, developers and product managers.
 
-[Learn more about PhraseApp](https://phraseapp.com/)
+[Learn more about Phrase](https://phrase.com/)
 
 ## Installation
 
-Using the service requires a PhraseApp account. Just sign up at [phraseapp.com/signup](https://phraseapp.com/signup) and get your free trial account.
+Using the service requires a Phrase account. Just sign up at [phrase.com/signup](https://phrase.com/signup) and get your free trial account.
 
 ### Install the Gem
 
@@ -30,7 +30,7 @@ Require the gem (unless you use bundler):
 require 'phraseapp-rubymotion'
 ```
 
-### Configure PhraseApp
+### Configure Phrase
 
 Add the Access Token and Project ID to your application's Rakefile:
 
@@ -47,15 +47,15 @@ Motion::Project::App.setup do |app|
 end
 ```
 
-You will find the Project ID in your [project settings](https://phraseapp.com/projects). Generate Access Tokens in your [profile settings](https://phraseapp.com/settings/oauth_access_tokens).
+You will find the Project ID in your [project settings](https://phrase.com/projects). Generate Access Tokens in your [profile settings](https://phrase.com/settings/oauth_access_tokens).
 
 This will automatically create the `phraseapp_config.rb` configuration file in your app folder during every build process.
 
-**Please make sure that you only enable PhraseApp in development mode and never in release mode!**
+**Please make sure that you only enable Phrase in development mode and never in release mode!**
 
 ## Usage
 
-Using PhraseApp with phraseapp-rubymotion lets you send new translations to the PhraseApp API automatically without having to write them into your Localizable.strings file or uploading them - just by browsing the app.
+Using Phrase with phraseapp-rubymotion lets you send new translations to the Phrase API automatically without having to write them into your Localizable.strings file or uploading them - just by browsing the app.
 
 ### Localizing Strings ###
 
@@ -87,9 +87,9 @@ Of course you can use more generic names for your keys as well, such as:
 
 ### Browsing translations in your app
 
-Simply build and run your app (in the simulator). When in development mode, phraseapp-rubymotion will send all of your localized strings to PhraseApp automatically! Log into your [PhraseApp account](https://phraseapp.com/account/login) and check your newly created keys. If you already have your localization files in the correct place, it will transmit translations as well.
+Simply build and run your app (in the simulator). When in development mode, phraseapp-rubymotion will send all of your localized strings to PhraseApp automatically! Log into your [Phrase account](https://phrase.com/account/login) and check your newly created keys. If you already have your localization files in the correct place, it will transmit translations as well.
 
 ## Support
 
-* [PhraseApp Documentation](https://help.phraseapp.com/)
-* [PhraseApp Support](https://phraseapp.com/contact)
+* [Phrase Documentation](https://help.phrase.com/)
+* [Phrase Support](https://phrase.com/contact)
